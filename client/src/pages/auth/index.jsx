@@ -5,6 +5,13 @@ import logo from "../../assets/logo.png";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CommonForm from "@/components/common-form";
 import { signInFormControls, signUpFormControls } from "@/config";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const AuthPage = () => {
   const [activeTab, setActiveTab] = useState("signin");
@@ -40,10 +47,36 @@ const AuthPage = () => {
             <TabsTrigger value="signup">Register</TabsTrigger>
           </TabsList>
           <TabsContent value="signin">
-            <CommonForm formControls={signInFormControls} />
+            <Card className="p-6 space-y-4 ">
+              <CardHeader className="flex justify-center items-center text-xl">
+                <CardTitle>Login to your account</CardTitle>
+                <CardDescription>
+                  Register, if you don't have an account
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <CommonForm
+                  formControls={signInFormControls}
+                  buttonText={"Login"}
+                />
+              </CardContent>
+            </Card>
           </TabsContent>
           <TabsContent value="signup">
-            <CommonForm formControls={signUpFormControls} />
+            <Card className="p-6 space-y-4 ">
+              <CardHeader className="flex justify-center items-center text-xl">
+                <CardTitle>Register to new account</CardTitle>
+                <CardDescription>
+                  Login, if you already have an account
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <CommonForm
+                  formControls={signUpFormControls}
+                  buttonText={"Register"}
+                />
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

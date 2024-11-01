@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,12 +12,35 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { AuthContext } from "@/context/auth-context";
 
 const AuthPage = () => {
   const [activeTab, setActiveTab] = useState("signin");
+  const {
+    signInFormData,
+    setSignInFormData,
+    signUpFormData,
+    setSignUpFormData,
+    handleRegisterUser,
+  } = useContext(AuthContext);
   const handleTabChange = (value) => {
     setActiveTab(value);
   };
+  function checkIfSignInFormIsValid() {
+    return (
+      signInFormData &&
+      signInFormData.userEmail !== "" &&
+      signInFormData.password !== ""
+    );
+  }
+  function checkIfSignUpFormIsValid() {
+    return (
+      signUpFormData &&
+      signUpFormData.userEmail !== "" &&
+      signUpFormData.password !== "" &&
+      signUpFormData.userName !== ""
+    );
+  }
   return (
     <div className="flex flex-col min-h-screen p-2">
       <header className="px-4 lg:px-6 h-14 flex items-center border-b z-50 ">
@@ -58,6 +81,9 @@ const AuthPage = () => {
                 <CommonForm
                   formControls={signInFormControls}
                   buttonText={"Login"}
+                  formData={signInFormData}
+                  setFormData={setSignInFormData}
+                  isButtonDisabled={!checkIfSignInFormIsValid()}
                 />
               </CardContent>
             </Card>
@@ -74,6 +100,10 @@ const AuthPage = () => {
                 <CommonForm
                   formControls={signUpFormControls}
                   buttonText={"Register"}
+                  formData={signUpFormData}
+                  setFormData={setSignUpFormData}
+                  isButtonDisabled={!checkIfSignUpFormIsValid()}
+                  handleSubmit={handleRegisterUser}
                 />
               </CardContent>
             </Card>

@@ -2,17 +2,20 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const authRoutes = require("./routes/auth-routes/index");
 
 const app = express();
 const port = process.env.PORT || 5001;
 const mongoDB = process.env.MONGO_URL;
 
 //Cors Configuration
-cors({
-  origin: process.env.CLIENT_URL,
-  methods: ["GET", "POST", "DELETE", "PUT"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-});
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 //JSON Middleware
 app.use(express.json());
@@ -22,6 +25,9 @@ mongoose
   .connect(mongoDB)
   .then(() => console.log("connected to database"))
   .catch((e) => console.log(e));
+
+// Routes Configuration
+app.use("/auth", authRoutes);
 
 //Global error handler
 app.use((err, req, res, next) => {

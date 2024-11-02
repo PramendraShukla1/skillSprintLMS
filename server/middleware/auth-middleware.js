@@ -13,12 +13,16 @@ const authenticateMiddleware = (req, res, next) => {
     });
   }
   const token = authHeader.split(" ")[1];
-
-  const payload = verifyToken(token, process.env.JWT_SECRET);
-
-  req.user = payload;
-
-  next();
+  try {
+    const payload = verifyToken(token, process.env.JWT_SECRET);
+    req.user = payload;
+    next();
+  } catch (e) {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid token",
+    });
+  }
 };
 
 module.exports = authenticateMiddleware;

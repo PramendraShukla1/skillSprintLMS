@@ -8,6 +8,7 @@ import { useContext, useState } from "react";
 
 function InstructorDashboardpage() {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const { resetCredentials } = useContext(AuthContext);
   const { auth } = useContext(AuthContext);
   const menuItems = [
     {
@@ -30,7 +31,10 @@ function InstructorDashboardpage() {
     },
   ];
 
-  function handleLogout() {}
+  function handleLogout() {
+    resetCredentials();
+    sessionStorage.clear();
+  }
 
   return (
     <div className="flex  h-full min-h-screen bg-gray-100">
@@ -44,7 +48,7 @@ function InstructorDashboardpage() {
               <Button
                 className="w-full justify-start mb-2"
                 key={menuItem.value}
-                variant="outline"
+                variant={activeTab === menuItem.value ? "secondary" : "outline"}
                 onClick={
                   menuItem.value === "logout"
                     ? handleLogout
